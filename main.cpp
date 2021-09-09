@@ -37,20 +37,20 @@ int main(int argc, char** argv) {
 
     // Read the value at 0x017EED18 and place its value into the variable gold_value. 
     DWORD gold_value = 0;
-    DWORD bytes_read = 0;
-    ReadProcessMemory(wesnoth_process, (void*)0x017EED18, &gold_value, 4, &bytes_read);
+    // DWORD bytes_read = 0; 								//no bytes_read necessary
+    ReadProcessMemory(wesnoth_process, (void*)0x017EED18, &gold_value, 4, NULL);	//NULL used as arguement instead of bytes_read	
 
     // Add 0xA90 to the value read from the last step and then read the value at that new address. These 
     // offsets are covered in https://gamehacking.academy/lesson/13
-    gold_value += 0xA90;
-    ReadProcessMemory(wesnoth_process, (void*)gold_value, &gold_value, 4, &bytes_read);
+    gold_value += 0xA90;								
+    ReadProcessMemory(wesnoth_process, (void*)gold_value, &gold_value, 4, NULL);	//NULL used as arguement instead of bytes_read
 
     // Add 4 to the gold_value, which will then be pointing at the player's current gold address.
     // Write the value of new_gold_value (555) into this address
     gold_value += 4;
     DWORD new_gold_value = 555;
-    DWORD bytes_written = 0;
-    WriteProcessMemory(wesnoth_process, (void*)gold_value, &new_gold_value, 4, &bytes_written);
+    //DWORD bytes_written = 0;								//no bytes_written necessary
+    WriteProcessMemory(wesnoth_process, (void*)gold_value, &new_gold_value, 4, NULL);	//NULL used as arguement instead of bytes_written
 	
     return 0;
 }
